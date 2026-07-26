@@ -3,9 +3,22 @@ pipeline{
 
     environment {
         ECR_REPO='127677820228.dkr.ecr.eu-west-1.amazonaws.com/electronix-ecr'
-        AWS_REGION = "US-EAST-1"
+        AWS_REGION = "eu-west-1"
+        PRODUCTION_IP= 52.209.33.145
+    }
+    stage('Backend Pipeline'){
+        when {
+            changeset "backend/**"
+        }
     }
     stages{
+        stage('Buold Docker Image'){
+            steps{
+                dir("backend"){
+                    sh 'docker build -t electronix-backend:${BUILD_NUMBER}'
+                }
+            }
+        }
         stages("Test ECR Login"){
             steps {
                 sh '''
@@ -13,7 +26,20 @@ pipeline{
                 '''
             }
         }
+        stage ("Tag & Push to ECR"){
+            steps{
+                sh '''
+                docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+                docker tag electronix-backend:${ECR}:latest
+                docker Push ${ECR_REPO}:${BUILD_NUMBER}
+                docker Push ${ECR_REPO}:latest
+
+                echo "push success✅"
+                '''
+            }
+        }
     }
+}
     post{
      success{
         "ECR LOGIN SUCCESS✅"
@@ -22,4 +48,3 @@ pipeline{
         "ECR LOGIN Failed❌"
      }
     }
-}
