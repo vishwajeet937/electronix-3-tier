@@ -7,9 +7,9 @@ pipeline{
         PRODUCTION_IP= 52.209.33.145
     }
     stage('Backend Pipeline'){
-       # when {
-       #     changeset "backend/**"
-       # }
+       //  when {
+       //    changeset "backend/**"
+       // }
     }
     stages{
         stage('Buold Docker Image'){
