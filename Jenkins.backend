@@ -29,10 +29,10 @@ pipeline{
         stage ("Tag & Push to ECR"){
             steps{
                 sh '''
-                docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
-                docker tag electronix-backend:${ECR}:latest
-                docker Push ${ECR_REPO}:${BUILD_NUMBER}
-                docker Push ${ECR_REPO}:latest
+                sudo docker tag electronix-backend:${BUILD_NUMBER} ${ECR_REPO}:${BUILD_NUMBER}
+                sudo docker tag electronix-backend:${ECR}:latest
+                sudo docker Push ${ECR_REPO}:${BUILD_NUMBER}
+                sudo docker Push ${ECR_REPO}:latest
 
                 echo "push success✅"
                 '''
