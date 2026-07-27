@@ -7,7 +7,7 @@ import { Search, Bell, Plus, ChevronDown, LogOut, User, ShieldCheck, ShoppingCar
 function Navbar({ searchQuery, onSearchChange }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, logout, loading } = useAuth();
   const { itemCount: cartCount } = useCart();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -135,7 +135,7 @@ function Navbar({ searchQuery, onSearchChange }) {
           <span className="absolute top-1.5 right-2 w-1.5 h-1.5 bg-amber rounded-full ring-2 ring-graphite" />
         </button>
 
-        {isAdmin && (
+        {!loading && isAdmin && (
           <Link
             to="/manage-product"
             className="hidden sm:inline-flex items-center gap-1.5 bg-teal hover:bg-teal-dim text-graphite px-4 py-2 rounded-full font-semibold text-sm transition-all duration-200 whitespace-nowrap active:scale-95 shadow-[0_4px_14px_-2px_rgba(20,184,166,0.4)]"
@@ -145,7 +145,11 @@ function Navbar({ searchQuery, onSearchChange }) {
           </Link>
         )}
 
-        {!user && (
+        {loading && (
+          <div className="w-9 h-9 rounded-full bg-surface border border-border-line animate-pulse" />
+        )}
+
+        {!loading && !user && (
           <Link
             to="/login"
             className="border border-border-line hover:border-teal text-text-primary hover:text-teal px-4 py-2 rounded-full font-semibold text-sm transition-all duration-200 whitespace-nowrap hover:bg-teal/5"
@@ -154,7 +158,7 @@ function Navbar({ searchQuery, onSearchChange }) {
           </Link>
         )}
 
-        {user && (
+        {!loading && user && (
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setMenuOpen((o) => !o)}
