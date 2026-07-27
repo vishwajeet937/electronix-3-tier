@@ -3,7 +3,6 @@ pipeline{
 
     environment{
         S3_BUCKET='electronix-production-20261'
-        CLOUDFRONT_ID=''
         AWS_REGION='eu-west-1'
     }
 
@@ -64,7 +63,7 @@ pipeline{
 
     post{
         success{
-           echo 'Frontent Deployment Successfull ✅'
+            echo 'Frontent Deployment Successfull ✅'
         }
 
         failure {
