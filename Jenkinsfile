@@ -3,7 +3,6 @@ pipeline{
 
     environment{
         S3_BUCKET='electronix-production-20261'
-        CLOUDFRONT_ID=''
         AWS_REGION='eu-west-1'
     }
 
